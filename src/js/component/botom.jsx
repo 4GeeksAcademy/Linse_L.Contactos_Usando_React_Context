@@ -7,7 +7,11 @@ export default function Boton(){
     return(
       
    <div>
-<Link to="/form">Take me to login</Link>
+
+<Link to="/form"><button>take login </button></Link>
+
+
+
   <p>usuarios existentes : {store.usuarios.length}  </p>
   </div>
     

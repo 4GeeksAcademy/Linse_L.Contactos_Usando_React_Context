@@ -24,7 +24,7 @@ export default function Formulario() {
 
        
         <div >
-        <form onSubmit={ ()=>actions.crearUsuario(name,email,number,address) }   > 
+        <form  > 
             <label for="Nombres" className="form-label fs-3 "><b> Full Name</b> </label>
             <input type="text" onChange={(e)=>setName(e.target.value)} className="form-control" id="Nombres" placeholder="Enter Name" name="Nombres"></input>
 
