@@ -1,14 +1,12 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
+import Home from "./views/home";
+import { Contacts } from "./views/contacts.js";
+import { CreateContact } from "./views/createContact.js";
+import { EditContact } from "./views/editContact.js";
 
-
-import { Home } from "./views/home";
 import injectContext from "./store/appContext";
-
-import ListaFotos from "./views/listaFotos";
-import FormNum from "./views/furmularioNum";
-
 
 
 //create your first component
@@ -23,10 +21,17 @@ const Layout = () => {
 			<BrowserRouter basename={basename}>
 					
 					<Routes>
+
+						<Route path="/" element={<Home/>} />
+						<Route path="/contacts" element={<Contacts/>} />
+						<Route path='/addcontact' element={<CreateContact />} />
+						<Route path='/contact/edit/:contactId' element={<EditContact />} />
+						<Route path="*" element={<h1>Not found!</h1>} />
+
+					
 						
-						<Route path="/" element={<Home />} />
-						<Route path="/fotos" element = {<ListaFotos/>} />
-						<Route path="/form" element={<FormNum />} />
+						
+						
 					</Routes>
 				
 			</BrowserRouter>

@@ -1,76 +1,73 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			demo :[],
-			usuarios: [],
-
-
-
+			contacts: [
+				
+			]
 		},
-
 		actions: {
-			// Use getActions to call a function within a fuction
-			loadSomeData: ()=> {
 
-				fetch('https://playground.4geeks.com/apis/fake/todos/user/alesanchezr', {
-      method: "PUT",
-      body: JSON.stringify(todos),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-    .then(resp => {
-        console.log(resp.ok); // Will be true if the response is successful
-        console.log(resp.status); // The status code=200 or code=400 etc.
-        console.log(resp.text()); // Will try to return the exact result as a string
-        return resp.json(); // (returns promise) Will try to parse the result as JSON and return a promise that you can .then for results
-    })
-    .then(data => {
-        // Here is where your code should start after the fetch finishes
-        console.log(data); // This will print on the console the exact object received from the server
-    })
-    .catch(error => {
-        // Error handling
-        console.log(error);
-    });
+			getAgenda: async () => {
+				const store = getStore();
+				const response = await fetch("https://playground.4geeks.com/apis/fake/contact/agenda/cr7thebest");
+				const jsonResponse = await response.json();
+				
 
+				setStore({ contacts: jsonResponse });
+			},
+			
+			deleteContact: async (id)  => {
+				const actions = getActions();
+				await fetch(`https://playground.4geeks.com/apis/fake/contact/${id}`, {
+					method: "DELETE"
+				})
 
-
-
-
-
+				await actions.getAgenda();
 			},
 
+			editContact: async (id, contacts) => {
+				const actions = getActions ();
+				const editContact = {
+					"full_name": contacts.full_name,
+					"email": contacts.email,
+					"agenda_slug": "cr7thebest",
+					"address": contacts.address,
+					"phone": contacts.phone
+				};
+				
+				 await fetch (`https://playground.4geeks.com/apis/fake/contact/${id}`,{
+						method: "PUT",
+						headers: {"Content-Type": "application/json"},
+						body: JSON.stringify (editContact),
+					});
+					
+					await actions.getAgenda();
+					
+				
+			},
 
-
-
-
-
-
-			
-
-
-
-
-			crearUsuario: (name, email, number, address) => {
+			addContact: async (contacts) => {
+				const newContact = {
+					"full_name": contacts.full_name,
+					"email": contacts.email,
+					"agenda_slug": "cr7thebest",
+					"address": contacts.address,
+					"phone": contacts.phone
+				};
+				
 				const store = getStore();
-				let nuevoUsuario = {
-					name: name,
-					email: email,
-					number: number,
-					address: address
+				await fetch ("https://playground.4geeks.com/apis/fake/contact", {
+					method: "POST",
+					headers: {"Content-Type": "application/json"},
+					body: JSON.stringify (newContact),
+				});
 
-				}
-				let nuevaListaUsuarios = [...store.usuarios, nuevoUsuario]
-				setStore({ usuarios: nuevaListaUsuarios });
-				console.log("intenado")
-
-			 }
-
-
-
+				const actions = getActions ();
+				actions.getAgenda (); 
+				setStore ({contacts:[...store.contacts, newContact] });
+			}
 		}
 	};
-};
 
+}
 export default getState;
